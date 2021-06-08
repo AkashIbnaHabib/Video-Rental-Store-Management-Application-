@@ -1,0 +1,40 @@
+﻿@using Vidly.Models
+@model Vidly.ViewModels.Movies.IndexMovieViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movies</h2>
+
+@if (User.IsInRole(RoleName.CanManageMovies))
+{
+    @Html.ActionLink("New Movie", "new", new { }, new { @class = "btn btn-primary" })
+}
+
+
+<br /><br />
+@if (Model.Movies.Count == 0)
+{
+    <p>Sorry, there is no movies available at the moment.</p>
+}
+else
+{
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Movie</th>
+                <th>Genre</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movie in Model.Movies)
+            {
+                <tr>
+                    <td>@Html.ActionLink(movie.Name, "Edit", new { id = movie.Id })</td>
+                    <td>@movie.GenreType.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
